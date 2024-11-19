@@ -1,11 +1,21 @@
 package com.nhc.Identity_service.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 public class UserCreationRequest {
+    @NotBlank(message = "USERNAME_INVALID")
     private String username;
+
+    @Size(min = 8, message = "PASSWORD_INVALID")
     private String password;
+
+    @NotBlank(message = "first name can not be blank")
     private String firstName;
+
+    @NotBlank(message = "last name can not be blank")
     private String lastName;
     private LocalDate dob;
 

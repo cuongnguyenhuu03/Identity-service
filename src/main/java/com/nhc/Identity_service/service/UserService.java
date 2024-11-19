@@ -3,6 +3,8 @@ package com.nhc.Identity_service.service;
 import com.nhc.Identity_service.dto.request.UserCreationRequest;
 import com.nhc.Identity_service.dto.request.UserUpdateRequest;
 import com.nhc.Identity_service.entity.User;
+import com.nhc.Identity_service.exception.AppException;
+import com.nhc.Identity_service.exception.ErrorCode;
 import com.nhc.Identity_service.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,10 @@ public class UserService {
 
     public User createRequestUser(UserCreationRequest user){
         User newUser = new User();
+
+        if(userRepository.existsByUsername(user.getUsername())){
+            throw new AppException(ErrorCode.USER_EXISTED);
+        }
 
         newUser.setUsername(user.getUsername());
         newUser.setPassword(user.getPassword());

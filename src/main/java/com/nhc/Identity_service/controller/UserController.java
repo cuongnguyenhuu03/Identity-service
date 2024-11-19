@@ -2,13 +2,13 @@ package com.nhc.Identity_service.controller;
 
 import com.nhc.Identity_service.dto.request.UserCreationRequest;
 import com.nhc.Identity_service.dto.request.UserUpdateRequest;
+import com.nhc.Identity_service.dto.response.ApiResponse;
 import com.nhc.Identity_service.entity.User;
 import com.nhc.Identity_service.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -18,8 +18,12 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/users")
-    public User createUser(@RequestBody UserCreationRequest user){
-        return userService.createRequestUser(user);
+    public ApiResponse createUser(
+            @Valid @RequestBody UserCreationRequest user
+            ){
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setResult(userService.createRequestUser(user));
+        return apiResponse;
     }
 
     @GetMapping("/users")
