@@ -6,6 +6,7 @@ public enum ErrorCode {
     USERNAME_INVALID(1002, "Username can not be blank"),
     PASSWORD_INVALID(1003, "Password must be at least 8 characters"),
     KEY_INVALID(1004, "key invalid"),
+    USER_NOT_EXISTED(1005, "User not existed"),
     ;
 
     ErrorCode(int code, String message) {
