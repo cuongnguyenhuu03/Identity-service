@@ -11,7 +11,10 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +24,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserController {
 
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
     UserService userService;
 
     @PostMapping("/users")
@@ -33,8 +37,16 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public List<User> fetchAllUser(){
-        return userService.fetchAllUser() ;
+    public ApiResponse fetchAllUser(){
+
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        log.info("Username : {}", authentication.getName());
+        authentication.getAuthorities()
+                .forEach(grantedAuthority -> log.info("Roles : {}", grantedAuthority.getAuthority()));
+
+        return ApiResponse.builder()
+                .result(userService.fetchAllUser())
+                .build();
     }
 
     @GetMapping("/users/{id}")
