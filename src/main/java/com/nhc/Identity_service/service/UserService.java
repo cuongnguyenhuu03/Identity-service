@@ -39,7 +39,7 @@ public class UserService {
         newUser.setPassword(passwordEncoder.encode(user.getPassword()));
         HashSet<String> roles = new HashSet<>();
         roles.add(Role.USER.name());
-        newUser.setRoles(roles);
+        //newUser.setRoles(roles);
 
         return userRepository.save(newUser);
     }
