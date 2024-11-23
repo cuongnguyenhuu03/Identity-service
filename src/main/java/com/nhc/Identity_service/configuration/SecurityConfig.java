@@ -1,8 +1,5 @@
 package com.nhc.Identity_service.configuration;
 
-import com.nhc.Identity_service.enums.Role;
-import com.nimbusds.jose.JWSAlgorithm;
-import lombok.experimental.NonFinal;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
