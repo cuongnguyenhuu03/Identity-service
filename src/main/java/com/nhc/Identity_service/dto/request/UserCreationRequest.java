@@ -1,5 +1,6 @@
 package com.nhc.Identity_service.dto.request;
 
+import com.nhc.Identity_service.validator.DobConstraint;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -21,5 +22,7 @@ public class UserCreationRequest {
     String firstName;
     @NotBlank(message = "last name can not be blank")
     String lastName;
+
+    @DobConstraint(min = 18)
     LocalDate dob;
 }
