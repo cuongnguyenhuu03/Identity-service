@@ -3,8 +3,8 @@ package com.nhc.Identity_service.controller;
 
 import com.nhc.Identity_service.dto.request.AuthenticationRequest;
 import com.nhc.Identity_service.dto.request.IntrospectRequest;
+import com.nhc.Identity_service.dto.request.LogoutRequest;
 import com.nhc.Identity_service.dto.response.ApiResponse;
-import com.nhc.Identity_service.dto.response.AuthenticationResponse;
 import com.nhc.Identity_service.service.AuthenticationService;
 import com.nimbusds.jose.JOSEException;
 import lombok.AccessLevel;
@@ -47,6 +47,14 @@ public class AuthenticationController {
         var result = authenticationService.introspect(request);
         return ApiResponse.builder()
                 .result(result)
+                .build();
+    }
+
+    @PostMapping("/logout")
+    ApiResponse logout(@RequestBody LogoutRequest request)
+            throws ParseException, JOSEException {
+        authenticationService.logout(request);
+        return ApiResponse.builder()
                 .build();
     }
 }

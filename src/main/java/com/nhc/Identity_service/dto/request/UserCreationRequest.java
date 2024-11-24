@@ -23,6 +23,6 @@ public class UserCreationRequest {
     @NotBlank(message = "last name can not be blank")
     String lastName;
 
-    @DobConstraint(min = 18)
+    @DobConstraint(min = 15)
     LocalDate dob;
 }
