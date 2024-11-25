@@ -4,6 +4,7 @@ package com.nhc.Identity_service.controller;
 import com.nhc.Identity_service.dto.request.AuthenticationRequest;
 import com.nhc.Identity_service.dto.request.IntrospectRequest;
 import com.nhc.Identity_service.dto.request.LogoutRequest;
+import com.nhc.Identity_service.dto.request.RefreshRequest;
 import com.nhc.Identity_service.dto.response.ApiResponse;
 import com.nhc.Identity_service.service.AuthenticationService;
 import com.nimbusds.jose.JOSEException;
@@ -45,6 +46,15 @@ public class AuthenticationController {
     ApiResponse introspect(@RequestBody IntrospectRequest request)
             throws ParseException, JOSEException {
         var result = authenticationService.introspect(request);
+        return ApiResponse.builder()
+                .result(result)
+                .build();
+    }
+
+    @PostMapping("/refresh")
+    ApiResponse refresh(@RequestBody RefreshRequest request)
+            throws ParseException, JOSEException {
+        var result =  authenticationService.refreshToken(request);
         return ApiResponse.builder()
                 .result(result)
                 .build();

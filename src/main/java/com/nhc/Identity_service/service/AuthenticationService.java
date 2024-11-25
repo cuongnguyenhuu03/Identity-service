@@ -3,6 +3,7 @@ package com.nhc.Identity_service.service;
 import com.nhc.Identity_service.dto.request.AuthenticationRequest;
 import com.nhc.Identity_service.dto.request.IntrospectRequest;
 import com.nhc.Identity_service.dto.request.LogoutRequest;
+import com.nhc.Identity_service.dto.request.RefreshRequest;
 import com.nhc.Identity_service.dto.response.AuthenticationResponse;
 import com.nhc.Identity_service.dto.response.IntrospectResponse;
 import com.nhc.Identity_service.entity.InvalidatedToken;
@@ -114,6 +115,33 @@ public class AuthenticationService {
         }
 
         return signedJWT;
+    }
+
+    public AuthenticationResponse refreshToken(RefreshRequest request)
+            throws ParseException, JOSEException {
+        // check valid and expiry token
+        var signToken = verifyToken(request.getToken());
+
+        var jit = signToken.getJWTClaimsSet().getJWTID();
+        var expiryTime = signToken.getJWTClaimsSet().getExpirationTime();
+
+        // logout token
+        InvalidatedToken invalidatedToken = InvalidatedToken.builder()
+                .id(jit)
+                .expiryTime(expiryTime)
+                .build();
+
+        invalidatedTokenRepository.save(invalidatedToken);
+
+        //gen new token
+        var username = signToken.getJWTClaimsSet().getSubject();
+        var user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
+        var token = generateToken(user);
+        return AuthenticationResponse.builder()
+                .token(token)
+                .isAuthenticated(true)
+                .build();
     }
 
     private String generateToken(User user) {
