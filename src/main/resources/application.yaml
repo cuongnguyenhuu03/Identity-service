@@ -14,3 +14,5 @@ spring:
 
 jwt:
   signerKey: "LIQM/m8NKaFF7nZBdJsSkTh4YU4EBB9S5p/aQ1Zbt/Hg7VPXY0Idae42bXom6Kx1"
+  valid-duration: 3600 # in second
+  refreshable-duration: 36000 # in second
