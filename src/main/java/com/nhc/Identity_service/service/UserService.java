@@ -32,8 +32,8 @@ public class UserService {
     PasswordEncoder passwordEncoder;
     RoleRepository roleRepository;
 
-    public User createRequestUser(UserCreationRequest user){
-        if(userRepository.existsByUsername(user.getUsername())){
+    public User createRequestUser(UserCreationRequest user) {
+        if (userRepository.existsByUsername(user.getUsername())) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
         User newUser = userMapper.toUser(user);
@@ -45,21 +45,21 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
-//    @PreAuthorize("hasRole('ADMIN')")
+    //    @PreAuthorize("hasRole('ADMIN')")
     @PreAuthorize("hasAuthority('APPROVE_POST')")
-    public List<User> fetchAllUser(){
+    public List<User> fetchAllUser() {
         log.info("in method get users");
         return userRepository.findAll();
     }
 
     @PostAuthorize("returnObject.username == authentication.name")
-    public UserResponse fetchUser(String id){
+    public UserResponse fetchUser(String id) {
         log.info("in method get user");
         return userMapper.toUserResponse(userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found")));
     }
 
-    public UserResponse updateUser(String id, UserUpdateRequest user){
+    public UserResponse updateUser(String id, UserUpdateRequest user) {
         User updateUser = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         userMapper.updateUser(updateUser, user);
@@ -71,11 +71,11 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.save(updateUser));
     }
 
-    public void deleteUser(String id){
+    public void deleteUser(String id) {
         userRepository.deleteById(id);
     }
 
-    public UserResponse getMyInfo(){
+    public UserResponse getMyInfo() {
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
 

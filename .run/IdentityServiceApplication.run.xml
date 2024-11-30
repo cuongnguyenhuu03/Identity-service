@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="IdentityServiceApplication" type="Application" factoryName="Application">
+        <envs>
+            <env name="DBMS_CONNECTION" value="jdbc:mysql://localhost:3306/identity_service"/>
+            <env name="DBMS_PASSWORD" value="1234"/>
+            <env name="DBMS_USERNAME" value="root"/>
+            <env name="JWT_SIGNERKEY" value="Jm39q6793P9eKw+kFnRPdeDL5LZ6zK3Yb4C/rizyR8W5Jmmlit6Ar2od6BJbvENy"/>
+        </envs>
+        <option name="MAIN_CLASS_NAME" value="com.nhc.Identity_service.IdentityServiceApplication"/>
+        <module name="Identity-service"/>
+        <option name="VM_PARAMETERS" value="-Dspring.profiles.active=production"/>
+        <method v="2">
+            <option name="Make" enabled="true"/>
+        </method>
+    </configuration>
+</component>

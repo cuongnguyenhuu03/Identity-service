@@ -30,8 +30,8 @@ public class AuthenticationController {
     AuthenticationService authenticationService;
 
     @PostMapping("/token")
-    ApiResponse authenticate(@RequestBody AuthenticationRequest request){
-        var result =  authenticationService.authenticate(request);
+    ApiResponse authenticate(@RequestBody AuthenticationRequest request) {
+        var result = authenticationService.authenticate(request);
 
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         log.info("Username : {}", authentication.getName());
@@ -54,7 +54,7 @@ public class AuthenticationController {
     @PostMapping("/refresh")
     ApiResponse refresh(@RequestBody RefreshRequest request)
             throws ParseException, JOSEException {
-        var result =  authenticationService.refreshToken(request);
+        var result = authenticationService.refreshToken(request);
         return ApiResponse.builder()
                 .result(result)
                 .build();

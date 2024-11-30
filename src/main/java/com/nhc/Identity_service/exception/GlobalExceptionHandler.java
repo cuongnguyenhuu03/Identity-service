@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -22,7 +21,7 @@ public class GlobalExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(value = Exception.class)
-    ResponseEntity<ApiResponse> handlingException(Exception exception){
+    ResponseEntity<ApiResponse> handlingException(Exception exception) {
         ApiResponse apiResponse = new ApiResponse();
 
         apiResponse.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
@@ -32,7 +31,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = AppException.class)
-    ResponseEntity<ApiResponse> handlingAppException(AppException exception){
+    ResponseEntity<ApiResponse> handlingAppException(AppException exception) {
         ErrorCode errorCode = exception.getErrorCode();
 
         ApiResponse apiResponse = new ApiResponse();
@@ -44,7 +43,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    ResponseEntity<ApiResponse> handlingValidException(MethodArgumentNotValidException exception){
+    ResponseEntity<ApiResponse> handlingValidException(MethodArgumentNotValidException exception) {
 
         ErrorCode errorCode = ErrorCode.KEY_INVALID;
         Map<String, Object> attributes = null;
@@ -59,7 +58,7 @@ public class GlobalExceptionHandler {
             attributes = constrainValidation.getConstraintDescriptor().getAttributes();
             log.info(attributes.toString());
 
-        } catch (IllegalArgumentException ex){
+        } catch (IllegalArgumentException ex) {
 
         }
 
@@ -72,14 +71,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(apiResponse);
     }
 
-    private String mapAttribute(String message, Map<String, Object> attribute){
+    private String mapAttribute(String message, Map<String, Object> attribute) {
         String minValue = String.valueOf(attribute.get(MIN_ATTRIBUTE));
 
         return message.replace("{" + MIN_ATTRIBUTE + "}", minValue);
     }
 
     @ExceptionHandler(value = AccessDeniedException.class)
-    ResponseEntity<ApiResponse> handlingAccessDeniedException (AccessDeniedException exception){
+    ResponseEntity<ApiResponse> handlingAccessDeniedException(AccessDeniedException exception) {
         ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
         return ResponseEntity.status(errorCode.getStatusCode()).body(
                 ApiResponse.builder()
